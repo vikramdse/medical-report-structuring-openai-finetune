@@ -1,0 +1,384 @@
+prompt,completion,system,predicted_output,expected_dict,predicted_dict,similarity_score,similarity_percentage,predicted_output_base_model,predicted_dict_base_model,similarity_score_base_model,similarity_percentage_base_model
+"After a few days of feeling under the weather, George Summers, a 42-year-old gentleman from the sunny shores of Clearwater Beach, decided to seek medical advice. He visited a local clinic after experiencing persistent cough, fatigue, and occasional headaches. Despite his active lifestyle, the symptoms seemed to linger, causing him concern. George, who resides at 789 Palm Avenue, Clearwater Beach, and can be reached at (813) 987-6543 or emailed at george.summers@beachmail.com, diligently described his condition to the attending physician. 
+
+Upon examination, the doctor diagnosed him with a common cold and recommended a one-week treatment plan. This plan included actions such as increasing fluid intake, resting adequately, and avoiding strenuous activities. Additionally, medications were prescribed: Paracetamol to alleviate his headaches and ease his aches, and Ibuprofen to help reduce any lingering inflammation. George hopes to recover swiftly with this regimen and return to his regular beach jogs.","{""patient"": {""name"": ""George"", ""surname"": ""Summers"", ""age"": 42, ""gender"": ""male"", ""address"": {""street"": ""789 Palm Avenue"", ""city"": ""Clearwater Beach"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""(813) 987-6543"", ""email"": ""george.summers@beachmail.com""}, ""diagnosis"": ""COLD"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""SLEEP""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""COUGH"", ""FATIGUE"", ""HEADACHE""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""George"", ""surname"": ""Summers"", ""age"": 42, ""gender"": ""male"", ""address"": {""street"": ""789 Palm Avenue"", ""city"": ""Clearwater Beach"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""(813) 987-6543"", ""email"": ""george.summers@beachmail.com""}, ""diagnosis"": ""COLD"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""SLEEP""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""COUGH"", ""FATIGUE"", ""HEADACHE""]}","{'patient': {'name': 'George', 'surname': 'Summers', 'age': 42, 'gender': 'male', 'address': {'street': '789 Palm Avenue', 'city': 'Clearwater Beach', 'state': '', 'zip_code': ''}, 'phone_number': '(813) 987-6543', 'email': 'george.summers@beachmail.com'}, 'diagnosis': 'COLD', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['COUGH', 'FATIGUE', 'HEADACHE']}","{'patient': {'name': 'George', 'surname': 'Summers', 'age': 42, 'gender': 'male', 'address': {'street': '789 Palm Avenue', 'city': 'Clearwater Beach', 'state': '', 'zip_code': ''}, 'phone_number': '(813) 987-6543', 'email': 'george.summers@beachmail.com'}, 'diagnosis': 'COLD', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['COUGH', 'FATIGUE', 'HEADACHE']}",1.0,100.0,"{
+  ""patient"": {
+    ""name"": ""George"",
+    ""surname"": ""Summers"",
+    ""age"": 42,
+    ""gender"": ""male"",
+    ""address"": {
+      ""street"": ""789 Palm Avenue"",
+      ""city"": ""Clearwater Beach"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""(813) 987-6543"",
+    ""email"": ""george.summers@beachmail.com""
+  },
+  ""diagnosis"": ""COLD"",
+  ""treatment_plan"": {
+    ""time_period"": 7,
+    ""actions"": [
+      ""FLUID_INTAKE_MONITORING"",
+      ""REST"",
+      ""AVOID_STRENUOUS_ACTIVITIES""
+    ],
+    ""medications"": [
+      ""PARACETAMOL"",
+      ""IBUPROFEN""
+    ]
+  },
+  ""symptoms"": [
+    ""COUGH"",
+    ""FATIGUE"",
+    ""HEADACHE""
+  ]
+}","{'patient': {'name': 'George', 'surname': 'Summers', 'age': 42, 'gender': 'male', 'address': {'street': '789 Palm Avenue', 'city': 'Clearwater Beach', 'state': '', 'zip_code': ''}, 'phone_number': '(813) 987-6543', 'email': 'george.summers@beachmail.com'}, 'diagnosis': 'COLD', 'treatment_plan': {'time_period': 7, 'actions': ['FLUID_INTAKE_MONITORING', 'REST', 'AVOID_STRENUOUS_ACTIVITIES'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['COUGH', 'FATIGUE', 'HEADACHE']}",0.9166666666666666,91.66666666666666
+"Despite the tropical heat enveloping Miami, 72-year-old Maria Alvarez clutched her shawl tighter, battling a persistent chill. Her grandson, David, who had recently come down with a flu, had been her guest last week, and now Maria was feeling the aftereffects. Her grandchildren had playfully coughed and sneezed around, blessing her with more than just their cheerful giggles.
+
+Last night, she awoke drenched in sweat and with a splitting headache. A fierce, hacking cough has been her unwelcome companion, and even her favorite telenovelas couldn't distract her from the relentless fatigue. Concerned, her daughter Isabella brought her to Dr. Thomas Lee, a seasoned physician known for his caring demeanor and thorough investigations. 
+
+""Influenza,"" Dr. Lee concluded, after a battery of tests in his sunlight-filled clinic. He prescribed a remedy of rest and hydration, alongside a regimen of paracetamol to tackle the fever and ibuprofen for her headache and body aches. He assured Maria that with some time and proper care, her health would bounce back like the resilient Cuban dishes she loved to prepare.
+
+Maria lives in a cozy apartment on Coral Street, fitted with floral drapes and family photos on every wall. Her daughter Isabella, a lawyer by profession and her guardian angel by choice, makes it a point to drop by daily with freshly cooked meals and her little ones in tow. Maria has kept her silver-lined flip phone, a relic from another era, close by, with Isabella's number on speed dial for emergencies. 
+
+Despite the discomfort, Maria is eager to regain her vitality. She looks forward to resuming her daily walks around the neighborhood and her enthusiastic participation in the weekend dance classes at the community center. For now, however, she wraps herself in her shawl, the vibrant echoes of her grandchildren's laughter resonating around her as she drifts into an afternoon nap.","{""patient"": {""name"": ""Maria"", ""surname"": ""Alvarez"", ""age"": 72, ""gender"": ""female"", ""address"": {""street"": ""Coral Street"", ""city"": ""Miami"", ""state"": ""Florida"", ""zip_code"": """"}, ""phone_number"": """", ""email"": """"}, ""diagnosis"": ""FLU"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""SLEEP""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""FEVER"", ""COUGH"", ""FATIGUE"", ""HEADACHE"", ""CHILLS""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Maria"", ""surname"": ""Alvarez"", ""age"": 72, ""gender"": ""female"", ""address"": {""street"": ""Coral Street"", ""city"": ""Miami"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""silver-lined flip phone"", ""email"": """"}, ""diagnosis"": ""FLU"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""SLEEP""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""FEVER"", ""HEADACHE"", ""COUGH"", ""FATIGUE""]}","{'patient': {'name': 'Maria', 'surname': 'Alvarez', 'age': 72, 'gender': 'female', 'address': {'street': 'Coral Street', 'city': 'Miami', 'state': 'Florida', 'zip_code': ''}, 'phone_number': '', 'email': ''}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FEVER', 'COUGH', 'FATIGUE', 'HEADACHE', 'CHILLS']}","{'patient': {'name': 'Maria', 'surname': 'Alvarez', 'age': 72, 'gender': 'female', 'address': {'street': 'Coral Street', 'city': 'Miami', 'state': '', 'zip_code': ''}, 'phone_number': 'silver-lined flip phone', 'email': ''}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FEVER', 'HEADACHE', 'COUGH', 'FATIGUE']}",0.9053571428571427,90.53571428571428,"{
+  ""patient"": {
+    ""name"": ""Maria"",
+    ""surname"": ""Alvarez"",
+    ""age"": 72,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""Coral Street"",
+      ""city"": ""Miami"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""Silver-lined flip phone with Isabella's number on speed dial"",
+    ""email"": """"
+  },
+  ""diagnosis"": ""FLU"",
+  ""treatment_plan"": {
+    ""time_period"": 1,
+    ""actions"": [
+      ""HYDRATION"",
+      ""REST""
+    ],
+    ""medications"": [
+      ""PARACETAMOL"",
+      ""IBUPROFEN""
+    ]
+  },
+  ""symptoms"": [
+    ""FEVER"",
+    ""HEADACHE"",
+    ""COUGH"",
+    ""FATIGUE""
+  ]
+}","{'patient': {'name': 'Maria', 'surname': 'Alvarez', 'age': 72, 'gender': 'female', 'address': {'street': 'Coral Street', 'city': 'Miami', 'state': '', 'zip_code': ''}, 'phone_number': ""Silver-lined flip phone with Isabella's number on speed dial"", 'email': ''}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 1, 'actions': ['HYDRATION', 'REST'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FEVER', 'HEADACHE', 'COUGH', 'FATIGUE']}",0.7803571428571427,78.03571428571428
+"Samantha Taylor, a 45-year-old woman residing at 78 Willow Creek Drive, Hartford, has been experiencing persistent symptoms for the past week. She noticed an overwhelming sense of fatigue that seems to worsen despite rest, coupled with frequent bouts of dizziness and headaches. Samantha also reported occasional nausea. Concerned about her deteriorating health, she visited her healthcare provider. Upon examination, she was diagnosed with a type of flu. Her doctor, Dr. Mercer, prescribed a treatment plan involving a seven-day course of rest, hydration, and regular administration of Paracetamol and Ibuprofen to manage her symptoms. They also advised her to monitor her symptoms closely and report any changes. Samantha, who can be reached via her cellphone at 987654321 and through her email at samantha.taylor@example.com, is determined to follow the treatment plan closely to ensure a swift recovery.","{""patient"": {""name"": ""Samantha"", ""surname"": ""Taylor"", ""age"": 45, ""gender"": ""female"", ""address"": {""street"": ""78 Willow Creek Drive"", ""city"": ""Hartford"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""987654321"", ""email"": ""samantha.taylor@example.com""}, ""diagnosis"": ""FLU"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""FATIGUE"", ""DIZZINESS"", ""HEADACHE"", ""NAUSEA""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Samantha"", ""surname"": ""Taylor"", ""age"": 45, ""gender"": ""female"", ""address"": {""street"": ""78 Willow Creek Drive"", ""city"": ""Hartford"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""987654321"", ""email"": ""samantha.taylor@example.com""}, ""diagnosis"": ""FLU"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""SLEEP""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""FATIGUE"", ""DIZZINESS"", ""HEADACHE"", ""NAUSEA""]}","{'patient': {'name': 'Samantha', 'surname': 'Taylor', 'age': 45, 'gender': 'female', 'address': {'street': '78 Willow Creek Drive', 'city': 'Hartford', 'state': '', 'zip_code': ''}, 'phone_number': '987654321', 'email': 'samantha.taylor@example.com'}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FATIGUE', 'DIZZINESS', 'HEADACHE', 'NAUSEA']}","{'patient': {'name': 'Samantha', 'surname': 'Taylor', 'age': 45, 'gender': 'female', 'address': {'street': '78 Willow Creek Drive', 'city': 'Hartford', 'state': '', 'zip_code': ''}, 'phone_number': '987654321', 'email': 'samantha.taylor@example.com'}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FATIGUE', 'DIZZINESS', 'HEADACHE', 'NAUSEA']}",1.0,100.0,"{
+  ""patient"": {
+    ""name"": ""Samantha"",
+    ""surname"": ""Taylor"",
+    ""age"": 45,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""78 Willow Creek Drive"",
+      ""city"": ""Hartford"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""987654321"",
+    ""email"": ""samantha.taylor@example.com""
+  },
+  ""diagnosis"": ""FLU"",
+  ""treatment_plan"": {
+    ""time_period"": 7,
+    ""actions"": [
+      ""HYDRATION"",
+      ""REST""
+    ],
+    ""medications"": [
+      ""PARACETAMOL"",
+      ""IBUPROFEN""
+    ]
+  },
+  ""symptoms"": [
+    ""FATIGUE"",
+    ""DIZZINESS"",
+    ""HEADACHE"",
+    ""NAUSEA""
+  ]
+}","{'patient': {'name': 'Samantha', 'surname': 'Taylor', 'age': 45, 'gender': 'female', 'address': {'street': '78 Willow Creek Drive', 'city': 'Hartford', 'state': '', 'zip_code': ''}, 'phone_number': '987654321', 'email': 'samantha.taylor@example.com'}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'REST'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FATIGUE', 'DIZZINESS', 'HEADACHE', 'NAUSEA']}",1.0,100.0
+"Claude Walker, a 47-year-old male from 7th Avenue, Harlem, New York City, has been feeling under the weather lately. Over the past week, he has been experiencing a persistent, hacking cough and noticeable fatigue that prevents him from performing his daily activities efficiently. Additionally, he's been suffering from shortness of breath and occasional dizziness, which has been causing him concern.
+
+Claude visited his family physician, Dr. Emily Chen, at Uptown Health Clinic, and after a thorough examination, he was diagnosed with Asthma. Dr. Chen explained that Asthma could be the reason for his breathing difficulties and coughing fits, and assured him that with proper management, he could lead a normal life. As part of his treatment plan, Dr. Chen has prescribed Albuterol to help open up his airways and relieve his breathing issues. Over the next two months, Claude is advised to use the inhaler every four to six hours as needed and to avoid known asthma triggers like dust and smoke.
+
+To ensure his treatment is effective, Dr. Chen has asked Claude to monitor his symptoms closely and keep her updated on any changes. She has recommended that he gets an air purifier for his apartment and perhaps avoid excessive physical exertion until his symptoms stabilize. Claude has also been advised to reach out to a pulmonologist if there is no improvement in his condition after the initial treatment period.
+
+While resting at home, Claude decided to contact his sister, Monique Green, who is a nurse in Boston, to update her on his health and seek any advice or insights she might have. For any further inquiries or appointments, Claude can be reached via his mobile phone at 646-398-2648 or his email, claude.walker47(nyc@gmail.com).","{""patient"": {""name"": ""Claude"", ""surname"": ""Walker"", ""age"": 47, ""gender"": ""male"", ""address"": {""street"": ""7th Avenue"", ""city"": ""Harlem"", ""state"": ""New York City"", ""zip_code"": """"}, ""phone_number"": ""646-398-2648"", ""email"": ""claude.walker47(nyc@gmail.com)""}, ""diagnosis"": ""ASTHMA"", ""treatment_plan"": {""time_period"": 60, ""actions"": [""MEDICATION_ADHERENCE"", ""AVOID_ALCOHOL"", ""SMOKING_CESSATION"", ""FOLLOW_UP_VISITS""], ""medications"": [""ALBUTEROL""]}, ""symptoms"": [""COUGH"", ""FATIGUE"", ""SHORTNESS_OF_BREATH"", ""DIZZINESS""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Claude"", ""surname"": ""Walker"", ""age"": 47, ""gender"": ""male"", ""address"": {""street"": ""7th Avenue"", ""city"": ""Harlem"", ""state"": ""New York City"", ""zip_code"": """"}, ""phone_number"": ""646-398-2648"", ""email"": ""claude.walker47(nyc@gmail.com)""}, ""diagnosis"": ""ASTHMA"", ""treatment_plan"": {""time_period"": 60, ""actions"": [""AVOID_ALCOHOL"", ""SMOKING_CESSATION""], ""medications"": [""ALBUTEROL""]}, ""symptoms"": [""COUGH"", ""FATIGUE"", ""SHORTNESS_OF_BREATH"", ""DIZZINESS""]}","{'patient': {'name': 'Claude', 'surname': 'Walker', 'age': 47, 'gender': 'male', 'address': {'street': '7th Avenue', 'city': 'Harlem', 'state': 'New York City', 'zip_code': ''}, 'phone_number': '646-398-2648', 'email': 'claude.walker47(nyc@gmail.com)'}, 'diagnosis': 'ASTHMA', 'treatment_plan': {'time_period': 60, 'actions': ['MEDICATION_ADHERENCE', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'FOLLOW_UP_VISITS'], 'medications': ['ALBUTEROL']}, 'symptoms': ['COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'DIZZINESS']}","{'patient': {'name': 'Claude', 'surname': 'Walker', 'age': 47, 'gender': 'male', 'address': {'street': '7th Avenue', 'city': 'Harlem', 'state': 'New York City', 'zip_code': ''}, 'phone_number': '646-398-2648', 'email': 'claude.walker47(nyc@gmail.com)'}, 'diagnosis': 'ASTHMA', 'treatment_plan': {'time_period': 60, 'actions': ['AVOID_ALCOHOL', 'SMOKING_CESSATION'], 'medications': ['ALBUTEROL']}, 'symptoms': ['COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'DIZZINESS']}",0.9583333333333334,95.83333333333334,"```json
+{
+  ""patient"": {
+    ""name"": ""Claude"",
+    ""surname"": ""Walker"",
+    ""age"": 47,
+    ""gender"": ""male"",
+    ""address"": {
+      ""street"": ""7th Avenue"",
+      ""city"": ""New York City"",
+      ""state"": ""NY"",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""646-398-2648"",
+    ""email"": ""claude.walker47(nyc@gmail.com)""
+  },
+  ""diagnosis"": ""ASTHMA"",
+  ""treatment_plan"": {
+    ""time_period"": 60,
+    ""actions"": [
+      ""AVOID_ALCOHOL"",
+      ""PHYSICAL_THERAPY""
+    ],
+    ""medications"": [
+      ""ALBUTEROL""
+    ]
+  },
+  ""symptoms"": [
+    ""COUGH"",
+    ""FATIGUE"",
+    ""SHORTNESS_OF_BREATH"",
+    ""DIZZINESS""
+  ]
+}
+```",,0.0,0.0
+"Luis Ortega, a 52-year-old male, has been feeling under the weather for the past week. Residing at 342 Sunlit Terrace, a quaint neighborhood in the heart of Canary Springs, he has been experiencing persistent fatigue, a nagging cough, and occasional bouts of dizziness. Concerned, his wife urged him to visit Dr. Fields at the Aurora Health Clinic. Upon evaluation, Dr. Fields diagnosed him with a common cold and devised a treatment plan to help him recover swiftly. The plan spans over a period of 5 days, involving plenty of rest, increased fluid intake, and a course of Paracetamol to relieve the discomfort. Luis, with his warm smile, can be reached at luis.ortega_canary@gmail.com or at his cell number 789-654-3210 for any follow-up queries.","{""patient"": {""name"": ""Luis"", ""surname"": ""Ortega"", ""age"": 52, ""gender"": ""male"", ""address"": {""street"": ""342 Sunlit Terrace"", ""city"": ""Canary Springs"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""789-654-3210"", ""email"": ""luis.ortega_canary@gmail.com""}, ""diagnosis"": ""COLD"", ""treatment_plan"": {""time_period"": 5, ""actions"": [""SLEEP"", ""HYDRATION""], ""medications"": [""PARACETAMOL""]}, ""symptoms"": [""FATIGUE"", ""COUGH"", ""DIZZINESS""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Luis"", ""surname"": ""Ortega"", ""age"": 52, ""gender"": ""male"", ""address"": {""street"": ""342 Sunlit Terrace"", ""city"": ""Canary Springs"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""789-654-3210"", ""email"": ""luis.ortega_canary@gmail.com""}, ""diagnosis"": ""COLD"", ""treatment_plan"": {""time_period"": 5, ""actions"": [""HYDRATION"", ""SLEEP""], ""medications"": [""PARACETAMOL""]}, ""symptoms"": [""FATIGUE"", ""COUGH"", ""DIZZINESS""]}","{'patient': {'name': 'Luis', 'surname': 'Ortega', 'age': 52, 'gender': 'male', 'address': {'street': '342 Sunlit Terrace', 'city': 'Canary Springs', 'state': '', 'zip_code': ''}, 'phone_number': '789-654-3210', 'email': 'luis.ortega_canary@gmail.com'}, 'diagnosis': 'COLD', 'treatment_plan': {'time_period': 5, 'actions': ['SLEEP', 'HYDRATION'], 'medications': ['PARACETAMOL']}, 'symptoms': ['FATIGUE', 'COUGH', 'DIZZINESS']}","{'patient': {'name': 'Luis', 'surname': 'Ortega', 'age': 52, 'gender': 'male', 'address': {'street': '342 Sunlit Terrace', 'city': 'Canary Springs', 'state': '', 'zip_code': ''}, 'phone_number': '789-654-3210', 'email': 'luis.ortega_canary@gmail.com'}, 'diagnosis': 'COLD', 'treatment_plan': {'time_period': 5, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL']}, 'symptoms': ['FATIGUE', 'COUGH', 'DIZZINESS']}",1.0,100.0,"{
+  ""patient"": {
+    ""name"": ""Luis"",
+    ""surname"": ""Ortega"",
+    ""age"": 52,
+    ""gender"": ""male"",
+    ""address"": {
+      ""street"": ""342 Sunlit Terrace"",
+      ""city"": ""Canary Springs"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""789-654-3210"",
+    ""email"": ""luis.ortega_canary@gmail.com""
+  },
+  ""diagnosis"": ""COLD"",
+  ""treatment_plan"": {
+    ""time_period"": 5,
+    ""actions"": [
+      ""HYDRATION"",
+      ""SLEEP""
+    ],
+    ""medications"": [
+      ""PARACETAMOL""
+    ]
+  },
+  ""symptoms"": [
+    ""FATIGUE"",
+    ""COUGH"",
+    ""DIZZINESS""
+  ]
+}","{'patient': {'name': 'Luis', 'surname': 'Ortega', 'age': 52, 'gender': 'male', 'address': {'street': '342 Sunlit Terrace', 'city': 'Canary Springs', 'state': '', 'zip_code': ''}, 'phone_number': '789-654-3210', 'email': 'luis.ortega_canary@gmail.com'}, 'diagnosis': 'COLD', 'treatment_plan': {'time_period': 5, 'actions': ['HYDRATION', 'SLEEP'], 'medications': ['PARACETAMOL']}, 'symptoms': ['FATIGUE', 'COUGH', 'DIZZINESS']}",1.0,100.0
+"Samantha Perkins has been experiencing persistent headaches and occasional dizziness for the past week. A 42-year-old woman living at 789 Willow Lane, Greenfield, she has decided to consult a doctor to figure out what's causing her discomfort. Samantha reports that the headache comes along with a mild fever, but no other symptoms like cough or nausea. She finds it particularly hard to focus on her work as a graphic designer when she's feeling this way. After an initial consultation and some tests, it turns out Samantha is suffering from migraines. The doctor prescribes a treatment plan that includes two weeks of rest, ensuring she has a consistent sleep schedule, and taking Ibuprofen as needed for the pain. For further information or follow-up appointments, Samantha can be reached at her contact number 9876543210 or via email at samantha.perkins@mail.com.","{""patient"": {""name"": ""Samantha"", ""surname"": ""Perkins"", ""age"": 42, ""gender"": ""female"", ""address"": {""street"": ""789 Willow Lane"", ""city"": ""Greenfield"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""9876543210"", ""email"": ""samantha.perkins@mail.com""}, ""diagnosis"": ""MIGRAINE"", ""treatment_plan"": {""time_period"": 14, ""actions"": [""SLEEP""], ""medications"": [""IBUPROFEN""]}, ""symptoms"": [""HEADACHE"", ""DIZZINESS"", ""FEVER""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Samantha"", ""surname"": ""Perkins"", ""age"": 42, ""gender"": ""female"", ""address"": {""street"": ""789 Willow Lane"", ""city"": ""Greenfield"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""9876543210"", ""email"": ""samantha.perkins@mail.com""}, ""diagnosis"": ""MIGRAINE"", ""treatment_plan"": {""time_period"": 14, ""actions"": [""SLEEP""], ""medications"": [""IBUPROFEN""]}, ""symptoms"": [""HEADACHE"", ""DIZZINESS"", ""FEVER""]}","{'patient': {'name': 'Samantha', 'surname': 'Perkins', 'age': 42, 'gender': 'female', 'address': {'street': '789 Willow Lane', 'city': 'Greenfield', 'state': '', 'zip_code': ''}, 'phone_number': '9876543210', 'email': 'samantha.perkins@mail.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 14, 'actions': ['SLEEP'], 'medications': ['IBUPROFEN']}, 'symptoms': ['HEADACHE', 'DIZZINESS', 'FEVER']}","{'patient': {'name': 'Samantha', 'surname': 'Perkins', 'age': 42, 'gender': 'female', 'address': {'street': '789 Willow Lane', 'city': 'Greenfield', 'state': '', 'zip_code': ''}, 'phone_number': '9876543210', 'email': 'samantha.perkins@mail.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 14, 'actions': ['SLEEP'], 'medications': ['IBUPROFEN']}, 'symptoms': ['HEADACHE', 'DIZZINESS', 'FEVER']}",1.0,100.0,"{
+  ""patient"": {
+    ""name"": ""Samantha"",
+    ""surname"": ""Perkins"",
+    ""age"": 42,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""789 Willow Lane"",
+      ""city"": ""Greenfield"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""9876543210"",
+    ""email"": ""samantha.perkins@mail.com""
+  },
+  ""diagnosis"": ""MIGRAINE"",
+  ""treatment_plan"": {
+    ""time_period"": 14,
+    ""actions"": [
+      ""SLEEP"",
+      ""STRESS_MANAGEMENT""
+    ],
+    ""medications"": [
+      ""IBUPROFEN""
+    ]
+  },
+  ""symptoms"": [
+    ""HEADACHE"",
+    ""DIZZINESS"",
+    ""FEVER""
+  ]
+}","{'patient': {'name': 'Samantha', 'surname': 'Perkins', 'age': 42, 'gender': 'female', 'address': {'street': '789 Willow Lane', 'city': 'Greenfield', 'state': '', 'zip_code': ''}, 'phone_number': '9876543210', 'email': 'samantha.perkins@mail.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 14, 'actions': ['SLEEP', 'STRESS_MANAGEMENT'], 'medications': ['IBUPROFEN']}, 'symptoms': ['HEADACHE', 'DIZZINESS', 'FEVER']}",1.0,100.0
+"""Mia Langston, a 34-year-old woman residing at 47 Evergreen Terrace, Whispering Pines, NL, has recently been experiencing a persistent cough and bouts of fatigue. Her phone number is 555-473-8962, and she can be reached via email at mia.langston1989@softmail.com. After consulting with Dr. Hartnell, she has been diagnosed with COVID-19, which explains the respiratory symptoms she has been enduring. Dr. Hartnell has proposed a treatment plan for a duration of 14 days, requiring regular hydration, adequate rest, and continued monitoring of her oxygen levels. She is advised to use Paracetamol to manage her fever and Azithromycin to address any potential bacterial complications. Mia is also encouraged to maintain a balanced diet to aid her recovery and is scheduled for follow-up checks to monitor her progress.""","{""patient"": {""name"": ""Mia"", ""surname"": ""Langston"", ""age"": 34, ""gender"": ""female"", ""address"": {""street"": ""47 Evergreen Terrace"", ""city"": ""Whispering Pines"", ""state"": ""NL"", ""zip_code"": """"}, ""phone_number"": ""555-473-8962"", ""email"": ""mia.langston1989@softmail.com""}, ""diagnosis"": ""COVID19"", ""treatment_plan"": {""time_period"": 14, ""actions"": [""HYDRATION"", ""SLEEP"", ""REGULAR_CHECKUPS"", ""BALANCED_DIET""], ""medications"": [""PARACETAMOL""]}, ""symptoms"": [""COUGH"", ""FATIGUE""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Mia"", ""surname"": ""Langston"", ""age"": 34, ""gender"": ""female"", ""address"": {""street"": ""47 Evergreen Terrace"", ""city"": ""Whispering Pines"", ""state"": ""NL"", ""zip_code"": """"}, ""phone_number"": ""555-473-8962"", ""email"": ""mia.langston1989@softmail.com""}, ""diagnosis"": ""COVID19"", ""treatment_plan"": {""time_period"": 14, ""actions"": [""HYDRATION"", ""SLEEP"", ""BALANCED_DIET""], ""medications"": [""PARACETAMOL"", ""AZITHROMYCIN""]}, ""symptoms"": [""COUGH"", ""FATIGUE""]}","{'patient': {'name': 'Mia', 'surname': 'Langston', 'age': 34, 'gender': 'female', 'address': {'street': '47 Evergreen Terrace', 'city': 'Whispering Pines', 'state': 'NL', 'zip_code': ''}, 'phone_number': '555-473-8962', 'email': 'mia.langston1989@softmail.com'}, 'diagnosis': 'COVID19', 'treatment_plan': {'time_period': 14, 'actions': ['HYDRATION', 'SLEEP', 'REGULAR_CHECKUPS', 'BALANCED_DIET'], 'medications': ['PARACETAMOL']}, 'symptoms': ['COUGH', 'FATIGUE']}","{'patient': {'name': 'Mia', 'surname': 'Langston', 'age': 34, 'gender': 'female', 'address': {'street': '47 Evergreen Terrace', 'city': 'Whispering Pines', 'state': 'NL', 'zip_code': ''}, 'phone_number': '555-473-8962', 'email': 'mia.langston1989@softmail.com'}, 'diagnosis': 'COVID19', 'treatment_plan': {'time_period': 14, 'actions': ['HYDRATION', 'SLEEP', 'BALANCED_DIET'], 'medications': ['PARACETAMOL', 'AZITHROMYCIN']}, 'symptoms': ['COUGH', 'FATIGUE']}",0.9791666666666666,97.91666666666666,"{
+  ""patient"": {
+    ""name"": ""Mia"",
+    ""surname"": ""Langston"",
+    ""age"": 34,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""47 Evergreen Terrace"",
+      ""city"": ""Whispering Pines"",
+      ""state"": ""NL"",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""555-473-8962"",
+    ""email"": ""mia.langston1989@softmail.com""
+  },
+  ""diagnosis"": ""COVID19"",
+  ""treatment_plan"": {
+    ""time_period"": 14,
+    ""actions"": [
+      ""HYDRATION"",
+      ""SLEEP"",
+      ""FOLLOW_UP_VISITS"",
+      ""BALANCED_DIET""
+    ],
+    ""medications"": [
+      ""PARACETAMOL"",
+      ""AZITHROMYCIN""
+    ]
+  },
+  ""symptoms"": [
+    ""COUGH"",
+    ""FATIGUE""
+  ]
+}","{'patient': {'name': 'Mia', 'surname': 'Langston', 'age': 34, 'gender': 'female', 'address': {'street': '47 Evergreen Terrace', 'city': 'Whispering Pines', 'state': 'NL', 'zip_code': ''}, 'phone_number': '555-473-8962', 'email': 'mia.langston1989@softmail.com'}, 'diagnosis': 'COVID19', 'treatment_plan': {'time_period': 14, 'actions': ['HYDRATION', 'SLEEP', 'FOLLOW_UP_VISITS', 'BALANCED_DIET'], 'medications': ['PARACETAMOL', 'AZITHROMYCIN']}, 'symptoms': ['COUGH', 'FATIGUE']}",0.9791666666666666,97.91666666666666
+"Emily Winters, a 45-year-old woman from 987 Whispering Pines Road, Aurora Springs, has recently been experiencing a series of concerning symptoms. She has been feeling unusually fatigued and has had bouts of dizziness and frequent headaches over the past two weeks. These symptoms, coupled with occasional nausea, prompted her to visit Dr. Samantha Best at Aurora Springs Medical Center. 
+
+After a thorough examination and a series of tests, Emily was diagnosed with migraine, a neurological condition that can result in severe headaches and associated symptoms. Dr. Best prescribed a treatment plan for the next two months, which includes lifestyle changes such as maintaining a regular sleep schedule, reducing screen time, and practicing stress management techniques. In addition to these actions, Emily has been advised to take ibuprofen to help manage the pain during her migraine attacks.
+
+Emily, being proactive about her health, will follow up with Dr. Best every two weeks to monitor her progress and adjust the treatment plan as needed. She can be contacted for updates regarding her condition at emily.winters@aurorasprings.com or on her mobile at 9801775543.","{""patient"": {""name"": ""Emily"", ""surname"": ""Winters"", ""age"": 45, ""gender"": ""female"", ""address"": {""street"": ""987 Whispering Pines Road"", ""city"": ""Aurora Springs"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""9801775543"", ""email"": ""emily.winters@aurorasprings.com""}, ""diagnosis"": ""MIGRAINE"", ""treatment_plan"": {""time_period"": 60, ""actions"": [""SLEEP"", ""STRESS_MANAGEMENT""], ""medications"": [""IBUPROFEN""]}, ""symptoms"": [""FATIGUE"", ""DIZZINESS"", ""HEADACHE"", ""NAUSEA""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Emily"", ""surname"": ""Winters"", ""age"": 45, ""gender"": ""female"", ""address"": {""street"": ""987 Whispering Pines Road"", ""city"": ""Aurora Springs"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""9801775543"", ""email"": ""emily.winters@aurorasprings.com""}, ""diagnosis"": ""MIGRAINE"", ""treatment_plan"": {""time_period"": 60, ""actions"": [""SLEEP"", ""STRESS_MANAGEMENT""], ""medications"": [""IBUPROFEN""]}, ""symptoms"": [""FATIGUE"", ""DIZZINESS"", ""HEADACHE"", ""NAUSEA""]}","{'patient': {'name': 'Emily', 'surname': 'Winters', 'age': 45, 'gender': 'female', 'address': {'street': '987 Whispering Pines Road', 'city': 'Aurora Springs', 'state': '', 'zip_code': ''}, 'phone_number': '9801775543', 'email': 'emily.winters@aurorasprings.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 60, 'actions': ['SLEEP', 'STRESS_MANAGEMENT'], 'medications': ['IBUPROFEN']}, 'symptoms': ['FATIGUE', 'DIZZINESS', 'HEADACHE', 'NAUSEA']}","{'patient': {'name': 'Emily', 'surname': 'Winters', 'age': 45, 'gender': 'female', 'address': {'street': '987 Whispering Pines Road', 'city': 'Aurora Springs', 'state': '', 'zip_code': ''}, 'phone_number': '9801775543', 'email': 'emily.winters@aurorasprings.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 60, 'actions': ['SLEEP', 'STRESS_MANAGEMENT'], 'medications': ['IBUPROFEN']}, 'symptoms': ['FATIGUE', 'DIZZINESS', 'HEADACHE', 'NAUSEA']}",1.0,100.0,"{
+  ""patient"": {
+    ""name"": ""Emily"",
+    ""surname"": ""Winters"",
+    ""age"": 45,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""987 Whispering Pines Road"",
+      ""city"": ""Aurora Springs"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""9801775543"",
+    ""email"": ""emily.winters@aurorasprings.com""
+  },
+  ""diagnosis"": ""MIGRAINE"",
+  ""treatment_plan"": {
+    ""time_period"": 60,
+    ""actions"": [
+      ""SLEEP"",
+      ""STRESS_MANAGEMENT""
+    ],
+    ""medications"": [
+      ""IBUPROFEN""
+    ]
+  },
+  ""symptoms"": [
+    ""FATIGUE"",
+    ""DIZZINESS"",
+    ""HEADACHE"",
+    ""NAUSEA""
+  ]
+}","{'patient': {'name': 'Emily', 'surname': 'Winters', 'age': 45, 'gender': 'female', 'address': {'street': '987 Whispering Pines Road', 'city': 'Aurora Springs', 'state': '', 'zip_code': ''}, 'phone_number': '9801775543', 'email': 'emily.winters@aurorasprings.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 60, 'actions': ['SLEEP', 'STRESS_MANAGEMENT'], 'medications': ['IBUPROFEN']}, 'symptoms': ['FATIGUE', 'DIZZINESS', 'HEADACHE', 'NAUSEA']}",1.0,100.0
+"Ruby Thompson, a 34-year-old woman, has been feeling under the weather for the past week. Living at 487 Maplewood Lane, in the heart of the picturesque town of Riverview Hills, she often enjoys the vibrant outdoors and local events. However, lately, she's been struggling with persistent headaches and bouts of dizziness, which have disrupted her usual routine. Ruby, who can be contacted via her mobile at 555-929-8765 or through her email ruby.t@horizonline.com, consulted Dr. Lewis at Riverview Family Clinic. Following a thorough examination, Dr. Lewis diagnosed her with migraines. To help ease her symptoms, a comprehensive treatment plan was crafted. Spanning the next three months, Ruby is advised to take Paracetamol for her headaches, and incorporate regular relaxation exercises into her daily regimen to reduce stress-induced triggers.","{""patient"": {""name"": ""Ruby"", ""surname"": ""Thompson"", ""age"": 34, ""gender"": ""female"", ""address"": {""street"": ""487 Maplewood Lane"", ""city"": ""Riverview Hills"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""555-929-8765"", ""email"": ""ruby.t@horizonline.com""}, ""diagnosis"": ""MIGRAINE"", ""treatment_plan"": {""time_period"": 90, ""actions"": [""STRESS_MANAGEMENT""], ""medications"": [""PARACETAMOL""]}, ""symptoms"": [""HEADACHE"", ""DIZZINESS""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Ruby"", ""surname"": ""Thompson"", ""age"": 34, ""gender"": ""female"", ""address"": {""street"": ""487 Maplewood Lane"", ""city"": ""Riverview Hills"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""555-929-8765"", ""email"": ""ruby.t@horizonline.com""}, ""diagnosis"": ""MIGRAINE"", ""treatment_plan"": {""time_period"": 90, ""actions"": [""STRESS_MANAGEMENT"", ""REGULAR_CHECKUPS"", ""MEDICATION_ADHERENCE""], ""medications"": [""PARACETAMOL""]}, ""symptoms"": [""HEADACHE"", ""DIZZINESS""]}","{'patient': {'name': 'Ruby', 'surname': 'Thompson', 'age': 34, 'gender': 'female', 'address': {'street': '487 Maplewood Lane', 'city': 'Riverview Hills', 'state': '', 'zip_code': ''}, 'phone_number': '555-929-8765', 'email': 'ruby.t@horizonline.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 90, 'actions': ['STRESS_MANAGEMENT'], 'medications': ['PARACETAMOL']}, 'symptoms': ['HEADACHE', 'DIZZINESS']}","{'patient': {'name': 'Ruby', 'surname': 'Thompson', 'age': 34, 'gender': 'female', 'address': {'street': '487 Maplewood Lane', 'city': 'Riverview Hills', 'state': '', 'zip_code': ''}, 'phone_number': '555-929-8765', 'email': 'ruby.t@horizonline.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 90, 'actions': ['STRESS_MANAGEMENT', 'REGULAR_CHECKUPS', 'MEDICATION_ADHERENCE'], 'medications': ['PARACETAMOL']}, 'symptoms': ['HEADACHE', 'DIZZINESS']}",1.0,100.0,"{
+  ""patient"": {
+    ""name"": ""Ruby"",
+    ""surname"": ""Thompson"",
+    ""age"": 34,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""487 Maplewood Lane"",
+      ""city"": ""Riverview Hills"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""555-929-8765"",
+    ""email"": ""ruby.t@horizonline.com""
+  },
+  ""diagnosis"": ""MIGRAINE"",
+  ""treatment_plan"": {
+    ""time_period"": 90,
+    ""actions"": [
+      ""STRESS_MANAGEMENT""
+    ],
+    ""medications"": [
+      ""PARACETAMOL""
+    ]
+  },
+  ""symptoms"": [
+    ""HEADACHE"",
+    ""DIZZINESS""
+  ]
+}","{'patient': {'name': 'Ruby', 'surname': 'Thompson', 'age': 34, 'gender': 'female', 'address': {'street': '487 Maplewood Lane', 'city': 'Riverview Hills', 'state': '', 'zip_code': ''}, 'phone_number': '555-929-8765', 'email': 'ruby.t@horizonline.com'}, 'diagnosis': 'MIGRAINE', 'treatment_plan': {'time_period': 90, 'actions': ['STRESS_MANAGEMENT'], 'medications': ['PARACETAMOL']}, 'symptoms': ['HEADACHE', 'DIZZINESS']}",1.0,100.0
+"Martha Fitzgerald, a 45-year-old woman from 62 Evergreen Lane, Bloomfield, has been experiencing several health issues recently. She is feeling persistently tired, accompanied by a fever and a persistent cough that's been troubling her for days. Martha, with her cheerful demeanor and always on-the-go lifestyle, finds this sudden bout of fatigue very unsettling. Diagnosed with the flu, she recalls the dreadful dizziness she felt that morning when she almost toppled over while making breakfast. After her consultation at Willow Medical Center, Dr. Peters recommended she takes some rest and prescribed a treatment plan for the next 7 days. The plan involves taking Paracetamol and Ibuprofen to manage her fever and inflammation. She'll have to stay hydrated, maintain a light diet, and isolate herself to prevent spreading the virus. Concerned friends can reach out to her at martha.fitzgerald@live.com or call her on her cell, 555-867-5309, but do remember she needs ample rest to recover swiftly.","{""patient"": {""name"": ""Martha"", ""surname"": ""Fitzgerald"", ""age"": 45, ""gender"": ""female"", ""address"": {""street"": ""62 Evergreen Lane"", ""city"": ""Bloomfield"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""555-867-5309"", ""email"": ""martha.fitzgerald@live.com""}, ""diagnosis"": ""FLU"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""DIETARY_CHANGES""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""FATIGUE"", ""FEVER"", ""COUGH"", ""DIZZINESS""]}","Extract the medical report information into the following model:
+{'$defs': {'Action': {'enum': ['HYDRATION', 'STRESS_MANAGEMENT', 'SLEEP', 'EXERCISE', 'DIETARY_CHANGES', 'MEDICATION_ADHERENCE', 'REGULAR_CHECKUPS', 'AVOID_ALCOHOL', 'SMOKING_CESSATION', 'BALANCED_DIET', 'PHYSICAL_THERAPY', 'MENTAL_HEALTH_SUPPORT', 'PAIN_MANAGEMENT', 'IMMUNIZATION', 'FOLLOW_UP_VISITS', 'WEIGHT_MANAGEMENT', 'BLOOD_PRESSURE_MONITORING', 'BLOOD_SUGAR_MONITORING', 'CHOLESTEROL_CONTROL', 'FLUID_INTAKE_MONITORING'], 'title': 'Action', 'type': 'string'}, 'Address': {'properties': {'street': {'title': 'Street', 'type': 'string'}, 'city': {'title': 'City', 'type': 'string'}, 'state': {'title': 'State', 'type': 'string'}, 'zip_code': {'title': 'Zip Code', 'type': 'string'}}, 'required': ['street', 'city', 'state', 'zip_code'], 'title': 'Address', 'type': 'object'}, 'Diagnosis': {'enum': ['FLU', 'COLD', 'COVID19', 'ASTHMA', 'DIABETES', 'HYPERTENSION', 'MIGRAINE', 'ANEMIA', 'ARTHRITIS', 'DEPRESSION', 'ALLERGY', 'BRONCHITIS'], 'title': 'Diagnosis', 'type': 'string'}, 'Medication': {'enum': ['PARACETAMOL', 'IBUPROFEN', 'AMOXICILLIN', 'METFORMIN', 'ALBUTEROL', 'LISINOPRIL', 'ATORVASTATIN', 'ASPIRIN', 'OMEPRAZOLE', 'LEVOTHYROXINE', 'SIMVASTATIN', 'LOSARTAN'], 'title': 'Medication', 'type': 'string'}, 'Patient': {'properties': {'name': {'description': 'The first name of the patient', 'title': 'Name', 'type': 'string'}, 'surname': {'description': 'The last name of the patient', 'title': 'Surname', 'type': 'string'}, 'age': {'description': 'The age of the patient, if not specified = 0', 'title': 'Age', 'type': 'integer'}, 'gender': {'description': 'The gender of the patient - male or female', 'title': 'Gender', 'type': 'string'}, 'address': {'$ref': '#/$defs/Address', 'description': 'The address of the patient'}, 'phone_number': {'description': 'The phone number of the patient', 'title': 'Phone Number', 'type': 'string'}, 'email': {'description': 'The email of the patient', 'title': 'Email', 'type': 'string'}}, 'required': ['name', 'surname', 'age', 'gender', 'address', 'phone_number', 'email'], 'title': 'Patient', 'type': 'object'}, 'Symptom': {'enum': ['FEVER', 'COUGH', 'FATIGUE', 'SHORTNESS_OF_BREATH', 'NAUSEA', 'HEADACHE', 'DIZZINESS', 'SORE_THROAT', 'RUNNY_NOSE', 'MUSCLE_ACHES', 'LOSS_OF_TASTE', 'LOSS_OF_SMELL', 'CHEST_PAIN', 'CHILLS'], 'title': 'Symptom', 'type': 'string'}, 'TreatmentPlan': {'properties': {'time_period': {'description': 'The time period for the treatment plan in days, if not specified = 1', 'title': 'Time Period', 'type': 'integer'}, 'actions': {'items': {'$ref': '#/$defs/Action'}, 'title': 'Actions', 'type': 'array'}, 'medications': {'items': {'$ref': '#/$defs/Medication'}, 'title': 'Medications', 'type': 'array'}}, 'required': ['time_period', 'actions', 'medications'], 'title': 'TreatmentPlan', 'type': 'object'}}, 'properties': {'patient': {'$ref': '#/$defs/Patient'}, 'diagnosis': {'$ref': '#/$defs/Diagnosis'}, 'treatment_plan': {'$ref': '#/$defs/TreatmentPlan'}, 'symptoms': {'items': {'$ref': '#/$defs/Symptom'}, 'title': 'Symptoms', 'type': 'array'}}, 'required': ['patient', 'diagnosis', 'treatment_plan', 'symptoms'], 'title': 'MedicalReport', 'type': 'object'}
+
+If something is not clear, or incomplete, leave it blank.","{""patient"": {""name"": ""Martha"", ""surname"": ""Fitzgerald"", ""age"": 45, ""gender"": ""female"", ""address"": {""street"": ""62 Evergreen Lane"", ""city"": ""Bloomfield"", ""state"": """", ""zip_code"": """"}, ""phone_number"": ""555-867-5309"", ""email"": ""martha.fitzgerald@live.com""}, ""diagnosis"": ""FLU"", ""treatment_plan"": {""time_period"": 7, ""actions"": [""HYDRATION"", ""SLEEP"", ""AVOID_ALCOHOL""], ""medications"": [""PARACETAMOL"", ""IBUPROFEN""]}, ""symptoms"": [""FATIGUE"", ""FEVER"", ""COUGH"", ""DIZZINESS""]}","{'patient': {'name': 'Martha', 'surname': 'Fitzgerald', 'age': 45, 'gender': 'female', 'address': {'street': '62 Evergreen Lane', 'city': 'Bloomfield', 'state': '', 'zip_code': ''}, 'phone_number': '555-867-5309', 'email': 'martha.fitzgerald@live.com'}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'DIETARY_CHANGES'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FATIGUE', 'FEVER', 'COUGH', 'DIZZINESS']}","{'patient': {'name': 'Martha', 'surname': 'Fitzgerald', 'age': 45, 'gender': 'female', 'address': {'street': '62 Evergreen Lane', 'city': 'Bloomfield', 'state': '', 'zip_code': ''}, 'phone_number': '555-867-5309', 'email': 'martha.fitzgerald@live.com'}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'SLEEP', 'AVOID_ALCOHOL'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FATIGUE', 'FEVER', 'COUGH', 'DIZZINESS']}",0.9583333333333334,95.83333333333334,"{
+  ""patient"": {
+    ""name"": ""Martha"",
+    ""surname"": ""Fitzgerald"",
+    ""age"": 45,
+    ""gender"": ""female"",
+    ""address"": {
+      ""street"": ""62 Evergreen Lane"",
+      ""city"": ""Bloomfield"",
+      ""state"": """",
+      ""zip_code"": """"
+    },
+    ""phone_number"": ""555-867-5309"",
+    ""email"": ""martha.fitzgerald@live.com""
+  },
+  ""diagnosis"": ""FLU"",
+  ""treatment_plan"": {
+    ""time_period"": 7,
+    ""actions"": [
+      ""HYDRATION"",
+      ""DIETARY_CHANGES"",
+      ""FOLLOW_UP_VISITS""
+    ],
+    ""medications"": [
+      ""PARACETAMOL"",
+      ""IBUPROFEN""
+    ]
+  },
+  ""symptoms"": [
+    ""FATIGUE"",
+    ""FEVER"",
+    ""COUGH"",
+    ""DIZZINESS""
+  ]
+}","{'patient': {'name': 'Martha', 'surname': 'Fitzgerald', 'age': 45, 'gender': 'female', 'address': {'street': '62 Evergreen Lane', 'city': 'Bloomfield', 'state': '', 'zip_code': ''}, 'phone_number': '555-867-5309', 'email': 'martha.fitzgerald@live.com'}, 'diagnosis': 'FLU', 'treatment_plan': {'time_period': 7, 'actions': ['HYDRATION', 'DIETARY_CHANGES', 'FOLLOW_UP_VISITS'], 'medications': ['PARACETAMOL', 'IBUPROFEN']}, 'symptoms': ['FATIGUE', 'FEVER', 'COUGH', 'DIZZINESS']}",1.0,100.0
