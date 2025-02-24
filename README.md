@@ -2,6 +2,10 @@
 
 This project focuses on structuring medical reports using OpenAI's fine-tuned model (gpt-4o-mini-2024-07-18). It transforms unstructured medical data into well-organized JSON formats, enabling easier analysis and integration with healthcare systems. By leveraging the fine-tuned model, it enhances accuracy in structuring compared to the base model.
 
+
+![Architecture](images/architecture.png)
+
+
 ## Features
 
 - Converts unstructured medical text into structured JSON objects.
